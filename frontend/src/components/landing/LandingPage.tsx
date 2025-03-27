@@ -17,7 +17,8 @@ import {
   EyeOff,
   AlertTriangle,
   FileQuestion,
-  Network
+  Network,
+  FileText
 } from 'lucide-react';
 import ConnectWallet from '../common/ConnectWallet';
 
@@ -679,65 +680,40 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Right Column: Premium IDE Mockup */}
-            <div className="reveal-up relative mt-12 lg:mt-0">
-              {/* Floating Effects behind IDE */}
-              <div className="absolute -inset-10 bg-gradient-to-br from-indigo-500/10 to-blue-500/5 blur-3xl rounded-[3rem] opacity-50 pointer-events-none" />
-              
-              <div className="relative rounded-2xl w-full bg-[#050508] border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col group hover:border-indigo-500/30 transition-all duration-700">
-                {/* IDE Header */}
-                <div className="h-12 w-full bg-[#0A0A10] border-b border-white/5 flex items-center px-4 justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-[#FF5F56] border border-white/10 hover:bg-red-500 transition-colors" />
-                    <div className="w-3 h-3 rounded-full bg-[#FFBD2E] border border-white/10 hover:bg-yellow-500 transition-colors" />
-                    <div className="w-3 h-3 rounded-full bg-[#27C93F] border border-white/10 hover:bg-green-500 transition-colors" />
-                  </div>
-                  <div className="flex items-center gap-1 text-[11px] font-mono text-neutral-500">
-                    <div className="flex items-center gap-2 px-4 py-2 rounded-t-lg bg-[#050508] border-t border-indigo-500/30 text-indigo-300">
-                      <code>harbor.leo</code>
-                    </div>
-                    <div className="flex items-center gap-2 px-4 py-2 rounded-t-lg hover:text-neutral-300 transition-colors cursor-pointer">
-                      <code>zpass.leo</code>
-                    </div>
-                  </div>
-                  <div className="w-[52px]" /> {/* Spacer to center tabs */}
+            {/* Right Column: Cryptographic Core Visual */}
+            <div className="reveal-up relative flex items-center justify-center mt-16 md:mt-24 lg:mt-0 min-h-[400px]">
+              {/* Massive Ambient Background Flare */}
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.1),transparent_60%)] pointer-events-none" />
+
+              <div className="relative w-full max-w-[500px] aspect-square flex items-center justify-center scale-90 md:scale-100">
+                {/* Outer Ring */}
+                <div className="absolute inset-0 rounded-full border border-indigo-500/10 border-dashed animate-[spin_40s_linear_infinite] shadow-[inset_0_0_50px_rgba(99,102,241,0.05)]" />
+                
+                {/* Middle Ring */}
+                <div className="absolute inset-8 rounded-full border border-white/5 bg-gradient-to-br from-indigo-500/5 to-transparent backdrop-blur-[2px] flex items-center justify-center shadow-[0_0_80px_rgba(99,102,241,0.15)] animate-[spin_30s_linear_reverse_infinite]" />
+                
+                {/* Inner Ring */}
+                <div className="absolute inset-20 rounded-full border border-indigo-500/30 flex items-center justify-center bg-black/40 backdrop-blur-md animate-[spin_20s_linear_infinite]" />
+
+                {/* Core Shield */}
+                <div className="relative z-10 w-24 h-24 rounded-full bg-indigo-500/10 border border-indigo-500/40 flex items-center justify-center shadow-[0_0_40px_rgba(99,102,241,0.4)] backdrop-blur-xl group cursor-default">
+                  <div className="absolute inset-0 rounded-full bg-indigo-500/20 blur-md animate-pulse group-hover:bg-indigo-500/40 transition-colors duration-500" />
+                  <EyeOff size={40} className="text-indigo-400 drop-shadow-[0_0_10px_rgba(129,140,248,0.8)] group-hover:scale-110 transition-transform duration-500" />
                 </div>
 
-                <div className="flex h-full min-h-[340px]">
-                  {/* IDE Sidebar */}
-                  <div className="hidden sm:flex w-[52px] border-r border-white/5 flex-col items-center py-4 gap-6 bg-[#030305]">
-                    <div className="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center">
-                      <FileCheck size={16} className="text-indigo-400" />
-                    </div>
-                    <Network size={18} className="text-neutral-600 hover:text-neutral-400 transition-colors" />
-                    <Shield size={18} className="text-neutral-600 hover:text-neutral-400 transition-colors" />
-                  </div>
+                {/* Orbiting Elements / Lasers */}
+                <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-indigo-500/30 to-transparent -rotate-45" />
+                <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-indigo-500/30 to-transparent rotate-45" />
 
-                  {/* IDE Code Area */}
-                  <div className="flex-1 p-6 md:p-8 font-mono text-[13px] md:text-[14px] leading-[2] overflow-x-auto relative">
-                     {/* Interactive Highlight Bar jumping to the assert line on hover */}
-                     <div className="absolute left-0 right-0 h-[28px] bg-indigo-500/10 border-l-2 border-indigo-500 top-[236px] md:top-[252px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-
-                     <div className="flex">
-                       {/* Line Numbers */}
-                       <div className="flex flex-col text-[#495162] pr-6 select-none text-right">
-                         <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
-                       </div>
-                       
-                       {/* High-Fidelity One Dark Pro Syntax */}
-                       <div className="text-[#abb2bf] whitespace-pre">
-                         <span className="text-[#c678dd] font-bold">async transition</span> <span className="text-[#61afef] font-bold">subscribe</span>{'(\n'}
-                         {'  '}credential: <span className="text-[#e5c07b]">ComplianceRecord</span>,{'\n'}
-                         {'  '}offering: <span className="text-[#e5c07b]">OfferingContext</span>,{'\n'}
-                         {'  '}amount: <span className="text-[#d19a66]">u64</span>{'\n'}
-                         {') -> '}(<span className="text-[#e5c07b]">PositionRecord</span>){' {\n'}
-                         {'  '}<span className="text-[#5c6370] italic">// Holdings & allocations remain entirely private</span>{'\n'}
-                         {'  '}<span className="text-[#5c6370] italic">// State execution prevents double-spending implicitly</span>{'\n'}
-                         {'  '}<span className="text-[#c678dd] font-bold">assert</span>(credential.is_verified);{'\n'}
-                         {'}'}
-                       </div>
-                     </div>
-                  </div>
+                {/* Data Packets */}
+                <div className="absolute top-[10%] right-[15%] w-14 h-14 rounded-2xl bg-[#09090C] border border-white/10 flex items-center justify-center shadow-2xl skew-y-6 animate-[bounce_4s_infinite]">
+                  <FileText size={20} className="text-neutral-500" />
+                  <div className="absolute w-2 h-2 rounded-full bg-red-500 -top-1 -right-1 animate-ping" />
+                </div>
+                
+                <div className="absolute bottom-[10%] left-[15%] w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center shadow-[0_0_30px_rgba(99,102,241,0.2)] -skew-y-6 animate-[bounce_4s_infinite_1s]">
+                  <Lock size={24} className="text-indigo-400" />
+                  <div className="absolute w-2 h-2 rounded-full bg-indigo-500 -top-1 -left-1 shadow-[0_0_10px_rgba(99,102,241,1)]" />
                 </div>
               </div>
             </div>
