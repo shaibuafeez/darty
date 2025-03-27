@@ -1,0 +1,9 @@
+{
+  "program": "harborzpass.aleo",
+  "version": "0.1.0",
+  "description": "Companion zPass-compatible program for Harbor investor compliance credentials",
+  "license": "MIT",
+  "leo": "3.4.0",
+  "dependencies": null,
+  "dev_dependencies": null
+}
