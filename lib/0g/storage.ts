@@ -96,7 +96,7 @@ export class ZGStorage {
       const [tx, uploadErr] = await this.indexer.upload(
         memData,
         this.config.evmRpc,
-        this.signer
+        this.signer as any
       );
 
       if (uploadErr !== null || !tx) {

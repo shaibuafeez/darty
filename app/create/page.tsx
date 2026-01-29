@@ -8,6 +8,12 @@ import { Copy } from "lucide-react";
 import { PREDICTION_MARKET_ADDRESS, MARKET_CATEGORIES } from "@/lib/contracts/constants";
 import { PREDICTION_MARKET_ABI } from "@/lib/contracts/predictionMarket";
 
+declare global {
+  interface Window {
+    ethereum?: any;
+  }
+}
+
 export default function CreateMarketPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
