@@ -12,6 +12,7 @@ import HowItWorks from "@/components/HowItWorks";
 import MarketsSection from "@/components/MarketsSection";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import Preloader from "@/components/Preloader";
 
 export default function HomePage() {
   const [markets, setMarkets] = useState<Market[]>([]);
@@ -157,6 +158,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900">
+      <Preloader />
       <Navbar account={account} connectWallet={connectWallet} />
 
       <Hero />

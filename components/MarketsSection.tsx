@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ethers } from "ethers";
 import { useState } from "react";
 import { Market, MarketStatus, Outcome } from "@/lib/contracts/predictionMarket";
+import { Activity, BarChart3, Clock, Terminal, Zap } from "lucide-react";
 
 interface MarketsSectionProps {
     markets: Market[];
@@ -33,24 +34,42 @@ export default function MarketsSection({ markets, loading }: MarketsSectionProps
         : markets.filter(m => m.category === activeFilter);
 
     return (
-        <section id="markets" className="py-24 bg-[var(--color-zg-black)] relative">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-end mb-12">
+        <section id="markets" className="py-24 bg-[var(--color-zg-black)] relative overflow-hidden">
+            {/* Background Grid */}
+            <div
+                className="absolute inset-0 opacity-[0.02] pointer-events-none"
+                style={{
+                    backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px)",
+                    backgroundSize: "40px 40px"
+                }}
+            />
+
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                {/* Section Header */}
+                <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
                     <div>
-                        <h2 className="text-4xl font-black text-white tracking-tighter mb-2">
-                            LIVE <span className="text-[var(--color-zg-purple)]">MARKETS</span>
+                        <div className="flex items-center gap-2 mb-2 text-[var(--color-zg-purple)]">
+                            <Terminal className="w-4 h-4" />
+                            <span className="text-xs font-mono tracking-widest uppercase">/ Market_Feed_v2.0</span>
+                        </div>
+                        <h2 className="text-4xl md:text-5xl font-medium tracking-tight text-white">
+                            Active <span className="font-serif italic text-gray-500">Scanning</span>
                         </h2>
-                        <p className="text-gray-400">Trade on real-world events.</p>
                     </div>
-                    <div className="flex gap-2 bg-[rgba(255,255,255,0.03)] p-1 rounded-full border border-[rgba(255,255,255,0.05)]">
+
+                    {/* Filters - System Tabs */}
+                    <div className="flex flex-wrap gap-2">
                         {filters.map((filter) => (
                             <button
                                 key={filter}
                                 onClick={() => setActiveFilter(filter)}
-                                className={`px-6 py-2 rounded-full text-xs font-bold uppercase transition-all duration-300 ${activeFilter === filter
-                                    ? "bg-[var(--color-zg-purple)] text-black shadow-[0_0_20px_rgba(212,173,255,0.3)] scale-105"
-                                    : "text-gray-400 hover:text-white hover:bg-[rgba(255,255,255,0.05)]"
+                                className={`group relative px-6 py-2 text-xs font-mono uppercase tracking-wider transition-all duration-300 ${activeFilter === filter
+                                    ? "text-black bg-[var(--color-zg-purple)] font-bold clip-path-polygon-[10px_0,100%_0,100%_calc(100%-10px),calc(100%-10px)_100%,0_100%,0_10px]"
+                                    : "text-gray-400 border border-white/10 hover:border-[var(--color-zg-purple)] hover:text-[var(--color-zg-purple)]"
                                     }`}
+                                style={{
+                                    clipPath: activeFilter === filter ? "polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)" : "none"
+                                }}
                             >
                                 {filter}
                             </button>
@@ -59,22 +78,23 @@ export default function MarketsSection({ markets, loading }: MarketsSectionProps
                 </div>
 
                 {loading ? (
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {[1, 2, 3].map(i => (
-                            <div key={i} className="h-64 rounded-2xl bg-[rgba(255,255,255,0.03)] animate-pulse border border-[rgba(255,255,255,0.05)]" />
+                            <div key={i} className="h-[300px] border border-white/5 bg-white/[0.02] animate-pulse rounded-sm relative">
+                                <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/20" />
+                                <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/20" />
+                                <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/20" />
+                                <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/20" />
+                            </div>
                         ))}
                     </div>
                 ) : filteredMarkets.length === 0 ? (
-                    <div className="text-center py-24 glass-panel rounded-2xl border-dashed border border-white/10">
-                        <div className="text-6xl mb-4 grayscale opacity-50">🔮</div>
-                        <h3 className="text-xl font-bold text-white mb-2">No active markets</h3>
-                        <p className="text-gray-400 mb-6">The future is unwritten.</p>
-                        <a href="/create" className="px-6 py-3 bg-[var(--color-zg-purple)] text-black font-bold rounded-lg hover:bg-white transition-colors">
-                            Create Market
-                        </a>
+                    <div className="py-32 flex flex-col items-center justify-center border border-dashed border-white/10 rounded-lg">
+                        <Activity className="w-12 h-12 text-gray-600 mb-4 opacity-50" />
+                        <h3 className="text-xl font-mono text-gray-500">NO_SIGNAL_FOUND</h3>
                     </div>
                 ) : (
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {filteredMarkets.map((market, i) => {
                             const odds = calculateOdds(market);
                             return (
@@ -83,58 +103,90 @@ export default function MarketsSection({ markets, loading }: MarketsSectionProps
                                     initial={{ opacity: 0, y: 20 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
-                                    transition={{ delay: i * 0.05 }}
-                                    className="group relative bg-[var(--color-zg-black)] rounded-2xl border border-[rgba(255,255,255,0.08)] hover:border-[var(--color-zg-purple)] overflow-hidden transition-all duration-300 hover:shadow-[0_0_30px_rgba(172,93,255,0.15)]"
+                                    transition={{ delay: i * 0.1 }}
+                                    className="group relative bg-black border border-white/10 hover:border-[var(--color-zg-purple)]/50 transition-colors duration-300 isolate"
                                 >
-                                    {/* Image Placeholder / Gradient */}
-                                    <div className="h-32 bg-gradient-to-br from-gray-900 to-black relative p-6 flex items-center justify-center overflow-hidden">
-                                        <div className="absolute inset-0 bg-[var(--color-zg-purple)]/5 group-hover:bg-[var(--color-zg-purple)]/10 transition-colors" />
-                                        <h3 className="relative z-10 text-xl font-bold text-white text-center leading-tight">
+                                    {/* Scanline Effect */}
+                                    <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,19,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-0 bg-[length:100%_2px,3px_100%] opacity-20" />
+
+                                    {/* Corner Accents */}
+                                    <div className="absolute -top-[1px] -left-[1px] w-4 h-4 border-t border-l border-[var(--color-zg-purple)] opacity-0 group-hover:opacity-100 transition-opacity" />
+                                    <div className="absolute -top-[1px] -right-[1px] w-4 h-4 border-t border-r border-[var(--color-zg-purple)] opacity-0 group-hover:opacity-100 transition-opacity" />
+                                    <div className="absolute -bottom-[1px] -left-[1px] w-4 h-4 border-b border-l border-[var(--color-zg-purple)] opacity-0 group-hover:opacity-100 transition-opacity" />
+                                    <div className="absolute -bottom-[1px] -right-[1px] w-4 h-4 border-b border-r border-[var(--color-zg-purple)] opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                                    <div className="relative z-10 p-6 flex flex-col h-full">
+                                        {/* Header */}
+                                        <div className="flex justify-between items-start mb-6">
+                                            <div className="flex items-center gap-2">
+                                                <span className="w-1.5 h-1.5 bg-[var(--color-zg-purple)] rounded-full animate-pulse" />
+                                                <span className="text-[10px] font-mono uppercase tracking-widest text-gray-500">
+                                                    ID_{market.marketId.toString().padStart(4, '0')}
+                                                </span>
+                                            </div>
+                                            <span className="px-2 py-1 bg-white/5 border border-white/10 text-[10px] font-mono text-gray-400 uppercase">
+                                                {market.category}
+                                            </span>
+                                        </div>
+
+                                        {/* Question */}
+                                        <h3 className="text-xl font-medium text-white mb-8 leading-snug min-h-[3.5rem] group-hover:text-[var(--color-zg-purple)] transition-colors">
                                             {market.question}
                                         </h3>
-                                    </div>
 
-                                    <div className="p-6">
-                                        <div className="flex justify-between text-xs text-gray-500 mb-4 uppercase tracking-wider font-medium">
-                                            <span>{market.category}</span>
-                                            <span>Vol: {formatAmount(market.totalPoolA + market.totalPoolB)}</span>
-                                        </div>
-
-                                        {/* Bars */}
-                                        <div className="space-y-3 mb-6">
-                                            <div className="relative h-10 bg-[rgba(255,255,255,0.03)] rounded-lg overflow-hidden flex items-center px-3 cursor-pointer hover:bg-[rgba(255,255,255,0.05)] transition-colors group/bar">
-                                                <div
-                                                    className="absolute inset-y-0 left-0 bg-[#22c55e]/20 group-hover/bar:bg-[#22c55e]/30 transition-all"
-                                                    style={{ width: `${odds.oddsA}%` }}
-                                                />
-                                                <div className="relative z-10 flex justify-between w-full text-sm">
-                                                    <span className="font-medium text-gray-300">{market.outcomeA}</span>
-                                                    <span className="font-bold text-[#22c55e]">{odds.oddsA.toFixed(1)}%</span>
+                                        {/* Stats Grid */}
+                                        <div className="grid grid-cols-2 gap-4 mb-8">
+                                            <div className="space-y-1">
+                                                <div className="text-[10px] uppercase text-gray-500 font-mono">Volume</div>
+                                                <div className="text-sm font-mono text-white flex items-center gap-2">
+                                                    <BarChart3 className="w-3 h-3 text-gray-600" />
+                                                    {formatAmount(market.totalPoolA + market.totalPoolB)}
                                                 </div>
                                             </div>
-
-                                            <div className="relative h-10 bg-[rgba(255,255,255,0.03)] rounded-lg overflow-hidden flex items-center px-3 cursor-pointer hover:bg-[rgba(255,255,255,0.05)] transition-colors group/bar">
-                                                <div
-                                                    className="absolute inset-y-0 left-0 bg-[#ef4444]/20 group-hover/bar:bg-[#ef4444]/30 transition-all"
-                                                    style={{ width: `${odds.oddsB}%` }}
-                                                />
-                                                <div className="relative z-10 flex justify-between w-full text-sm">
-                                                    <span className="font-medium text-gray-300">{market.outcomeB}</span>
-                                                    <span className="font-bold text-[#ef4444]">{odds.oddsB.toFixed(1)}%</span>
+                                            <div className="space-y-1">
+                                                <div className="text-[10px] uppercase text-gray-500 font-mono">End Date</div>
+                                                <div className="text-sm font-mono text-white flex items-center gap-2">
+                                                    <Clock className="w-3 h-3 text-gray-600" />
+                                                    {new Date(Number(market.resolutionTime) * 1000).toLocaleDateString()}
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div className="flex items-center justify-between pt-4 border-t border-white/5">
-                                            <div className="flex -space-x-2">
-                                                {[1, 2, 3].map(i => (
-                                                    <div key={i} className="w-6 h-6 rounded-full bg-gray-800 border-2 border-black" />
-                                                ))}
+                                        {/* Probability Bars (Holographic Style) */}
+                                        <div className="mt-auto space-y-3">
+                                            {/* Option A */}
+                                            <div className="relative group/bar cursor-pointer">
+                                                <div className="flex justify-between text-xs font-mono mb-1">
+                                                    <span className="text-gray-400">{market.outcomeA}</span>
+                                                    <span className="text-[var(--color-zg-purple)]">{odds.oddsA.toFixed(1)}%</span>
+                                                </div>
+                                                <div className="h-1.5 w-full bg-white/10 overflow-hidden">
+                                                    <div
+                                                        style={{ width: `${odds.oddsA}%` }}
+                                                        className="h-full bg-[var(--color-zg-purple)] group-hover/bar:bg-white transition-colors duration-300"
+                                                    />
+                                                </div>
                                             </div>
-                                            <a href={`/market/${market.marketId}`} className="text-xs font-bold uppercase text-[var(--color-zg-purple)] hover:text-white transition-colors">
-                                                Trade Now &rarr;
-                                            </a>
+
+                                            {/* Option B */}
+                                            <div className="relative group/bar cursor-pointer">
+                                                <div className="flex justify-between text-xs font-mono mb-1">
+                                                    <span className="text-gray-400">{market.outcomeB}</span>
+                                                    <span className="text-gray-500">{odds.oddsB.toFixed(1)}%</span>
+                                                </div>
+                                                <div className="h-1.5 w-full bg-white/10 overflow-hidden">
+                                                    <div
+                                                        style={{ width: `${odds.oddsB}%` }}
+                                                        className="h-full bg-gray-600 group-hover/bar:bg-gray-400 transition-colors duration-300"
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
+
+                                        {/* Action */}
+                                        <a href={`/market/${market.marketId}`} className="block mt-6 text-center py-3 border border-white/20 text-xs font-mono uppercase tracking-widest text-white hover:bg-white hover:text-black transition-all">
+                                            Execute Trade
+                                        </a>
                                     </div>
                                 </motion.div>
                             );

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Wallet, Menu, X } from "lucide-react";
+import Link from "next/link";
 import { useState, useEffect } from "react";
 
 interface NavbarProps {
@@ -40,15 +41,15 @@ export default function Navbar({ account, connectWallet }: NavbarProps) {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center">
                         {/* Logo */}
-                        <a href="/" className="flex items-center gap-2 group">
-                            <div className="w-8 h-8 rounded-lg bg-[var(--color-zg-purple)]/10 flex items-center justify-center border border-[var(--color-zg-purple)]/20 group-hover:border-[var(--color-zg-purple)] transition-colors">
-                                <div className="w-3 h-3 bg-[var(--color-zg-purple)] rotate-45 group-hover:rotate-90 transition-transform duration-500" />
+                        <Link href="/" className="flex items-center gap-2 group">
+                            <div className="relative w-8 h-8 flex items-center justify-center bg-[var(--color-zg-purple)] rounded-lg overflow-hidden">
+                                <div className="absolute inset-0 bg-white/20 rotate-45 transform group-hover:translate-x-full transition-transform duration-500" />
+                                <span className="text-black font-black text-xl tracking-tighter">D</span>
                             </div>
-                            <span className="text-xl font-black tracking-tighter text-white">
+                            <span className="text-white font-bold text-xl tracking-tight group-hover:text-[var(--color-zg-purple)] transition-colors">
                                 DART
-                                <span className="text-[var(--color-zg-purple)]">.MEME</span>
                             </span>
-                        </a>
+                        </Link>
 
                         {/* Desktop Nav */}
                         <div className="hidden md:flex items-center gap-8">
